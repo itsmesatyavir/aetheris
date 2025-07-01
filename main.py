@@ -10,7 +10,7 @@ from queue import Queue
 # === Config ===
 THREADS = 10
 RETRY_LIMIT = 2
-BATCH_SIZE = 1000  # Each loop will do this many referrals
+BATCH_SIZE = 1000
 
 # === Load Proxies ===
 def load_proxies():
@@ -115,7 +115,7 @@ def run_batch(ref_code, count, proxies):
 # === Banner ===
 def banner():
     print("\n" + "="*50)
-    print("🌲 FOREST ARMY — Infinite Referral Engine")
+    print("🌲 FOREST ARMY — Referral Booster Engine")
     print("📺 YouTube: https://youtube.com/forestarmy")
     print("📢 Telegram: https://t.me/forestarmy")
     print("="*50 + "\n")
@@ -132,14 +132,24 @@ if __name__ == "__main__":
         print("❌ code.txt not found.")
         exit()
 
+    try:
+        total_count = int(input("🔢 Total referrals per code? "))
+    except:
+        print("❌ Invalid input.")
+        exit()
+
     PROXIES = load_proxies()
     print(f"🔌 Proxy Mode: {'ON' if PROXIES else 'OFF'}")
 
-    try:
-        while True:
-            for code in codes:
-                print(f"\n🚀 New batch for referral code: {code}")
-                run_batch(code, BATCH_SIZE, PROXIES)
-                time.sleep(1)
-    except KeyboardInterrupt:
-        print("\n🛑 Stopped manually by user.")
+    for code in codes:
+        print(f"\n🚀 Starting referrals for decoded code: {code}")
+        done = 0
+        batch_num = 1
+        while done < total_count:
+            remaining = total_count - done
+            batch_size = min(BATCH_SIZE, remaining)
+            print(f"\n⚙️ Batch #{batch_num} — {batch_size} referrals")
+            run_batch(code, batch_size, PROXIES)
+            done += batch_size
+            batch_num += 1
+            time.sleep(1)
