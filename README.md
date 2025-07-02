@@ -46,6 +46,12 @@ pip install aiohttp requests pysocks
 
 ## 📥 Usage
 
+Clone the Repo
+```bash
+git clone https://github.com/itsmesatyavir/aetheris.git
+cd aetheris
+```
+
 Run the script with:
 
 ```bash
